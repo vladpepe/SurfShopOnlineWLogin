@@ -1,22 +1,85 @@
 ﻿using OnlineShoppingStore.DAL;
 using OnlineShoppingStore.Models.Home;
-using System;
+using OnlineShoppingStore.Repository;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-
 
 namespace OnlineShoppingStore.Controllers
 {
     public class HomeController : Controller
     {
         dbMyOnlineShoppingEntities ctx = new dbMyOnlineShoppingEntities();
-        public ActionResult Index(string search,int? page)
+        public GenericUnitOfWork _unitOfWork = new GenericUnitOfWork();
+        public ActionResult Index(string search, int? page)
         {
             HomeIndexViewModel model = new HomeIndexViewModel();
-            return View(model.CreateModel(search, 4, page));
+            return View(model.CreateModel(search, 12, page));
         }
+        public ActionResult Checkout()
+        {
+            return View();
+        }
+
+
+        public ActionResult AdminLogin()
+        {
+            return View();
+        }
+       
+
+        public ActionResult AddAdmin()
+        {
+            
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult AddAdmin(Tbl_Admin tbl)
+        {
+            if(tbl.Password != null && tbl.UserName != null)
+            {
+                tbl.Password = Tbl_Admin.MD5Hash(tbl.Password);
+                _unitOfWork.GetRepositoryInstance<Tbl_Admin>().Add(tbl);
+                return RedirectToAction("AdminLogin");
+            }
+            return RedirectToAction("AddAdmin");
+        }
+
+
+        public ActionResult CheckoutDetails()
+        {
+            return View();
+        }
+        public ActionResult DecreaseQty(int productId)
+        {
+            if (Session["cart"] != null)
+            {
+                List<Item> cart = (List<Item>)Session["cart"];
+                var product = ctx.Tbl_Product.Find(productId);
+                foreach (var item in cart)
+                {
+                    if (item.Product.ProductId == productId)
+                    {
+                        int prevQty = item.Quantity;
+                        if (prevQty > 0)
+                        {
+                            cart.Remove(item);
+                            cart.Add(new Item()
+                            {
+                                Product = product,
+                                Quantity = prevQty - 1
+                            });
+                        }
+                        break;
+                    }
+                }
+                Session["cart"] = cart;
+            }
+            return Redirect("Checkout");
+        }
+
 
         public ActionResult AddToCart(int productId, string url)
         {
@@ -66,8 +129,19 @@ namespace OnlineShoppingStore.Controllers
             }
             return Redirect("Index");
         }
-        
-
-
+        public ActionResult RemoveFromCart(int productId)
+        {
+            List<Item> cart = (List<Item>)Session["cart"];
+            foreach (var item in cart)
+            {
+                if (item.Product.ProductId == productId)
+                {
+                    cart.Remove(item);
+                    break;
+                }
+            }
+            Session["cart"] = cart;
+            return Redirect("Index");
+        }
     }
 }

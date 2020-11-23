@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace OnlineShoppingStore.Controllers
 {
     public class AdminController : Controller
@@ -26,10 +27,25 @@ namespace OnlineShoppingStore.Controllers
         }
 
         // GET: Admin
-        public ActionResult Dashboard()
+        public ActionResult Dashboard(Tbl_Admin tbl)
         {
-            return View();
+            if(tbl.UserName == "1" && tbl.Password == "1")
+            {
+               
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("AdminLogin");
+            }
+
         }
+
+        public void AdminLogin()
+        {
+            Url.Action("AdminLogin", "Home");
+        }
+
 
         public ActionResult Categories()
         {

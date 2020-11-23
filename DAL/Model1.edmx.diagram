@@ -17,6 +17,7 @@
         <EntityTypeShape EntityType="dbMyOnlineShoppingModel.Tbl_Product" Width="1.5" PointX="3" PointY="1" />
         <AssociationConnector Association="dbMyOnlineShoppingModel.FK__Tbl_Cart__Produc__38996AB5" />
         <AssociationConnector Association="dbMyOnlineShoppingModel.FK__Tbl_Produ__Categ__398D8EEE" />
+        <EntityTypeShape EntityType="dbMyOnlineShoppingModel.Tbl_Admin" Width="1.5" PointX="8.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
