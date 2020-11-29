@@ -34,7 +34,4 @@ namespace OnlineShoppingStore.DAL
             return hash.ToString();
         }
     }
-
-
-
 }

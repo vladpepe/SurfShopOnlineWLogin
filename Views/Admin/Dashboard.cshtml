@@ -1,8 +1,12 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Dashboard</h2>
+@if (User.Identity.IsAuthenticated)
+{
+    <h1>Welcome @(User.Identity.IsAuthenticated ? HttpContext.Current.User.Identity.Name : "Guest")</h1>
+    <a href="@Url.Action("Signout","Home")">Logout</a>
+}
 
+<h2>Dashboard</h2>

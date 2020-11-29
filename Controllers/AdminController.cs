@@ -2,18 +2,33 @@
 using OnlineShoppingStore.DAL;
 using OnlineShoppingStore.Models;
 using OnlineShoppingStore.Repository;
+using OnlineShoppingStore.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using System.Web.Security;
 
 namespace OnlineShoppingStore.Controllers
 {
+    //Require authorization to run all the following controllers
+    [Authorize]
     public class AdminController : Controller
     {
         public GenericUnitOfWork _unitOfWork = new GenericUnitOfWork();
+
+        //Sign out the Admin - If you want to visit again the Admin page you have to login again
+       public ActionResult SignOut()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Login", "Home");
+        }
+
+        public ActionResult Dashboard()
+        {
+            return View();
+        }
 
         public List<SelectListItem> GetCategory()
         {
@@ -26,27 +41,6 @@ namespace OnlineShoppingStore.Controllers
             return list;
         }
 
-        // GET: Admin
-        public ActionResult Dashboard(Tbl_Admin tbl)
-        {
-            if(tbl.UserName == "1" && tbl.Password == "1")
-            {
-               
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("AdminLogin");
-            }
-
-        }
-
-        public void AdminLogin()
-        {
-            Url.Action("AdminLogin", "Home");
-        }
-
-
         public ActionResult Categories()
         {
             List<Tbl_Category> allcategories = _unitOfWork.GetRepositoryInstance<Tbl_Category>().GetAllRecordsIQueryable().Where(i => i.IsDelete == false).ToList();
@@ -58,13 +52,15 @@ namespace OnlineShoppingStore.Controllers
             return View();
         }
 
+
+        //Add new category of products to the database
         [HttpPost]
         public ActionResult AddCategory(Tbl_Category tbl)
         {
             _unitOfWork.GetRepositoryInstance<Tbl_Category>().Add(tbl);
             return RedirectToAction("Categories");
         }
-
+      
         public ActionResult UpdateCategory(int categoryId)
         {
             CategoryDetail cd;
@@ -77,21 +73,20 @@ namespace OnlineShoppingStore.Controllers
                 cd = new CategoryDetail();
             }
             return View("UpdateCategory", cd);
-
         }
+
         public ActionResult CategoryEdit(int catId)
         {
             return View(_unitOfWork.GetRepositoryInstance<Tbl_Category>().GetFirstorDefault(catId));
         }
-
+        
+        //Edit the category with the ID catId
         [HttpPost]
         public ActionResult CategoryEdit(Tbl_Category tbl)
         {
             _unitOfWork.GetRepositoryInstance<Tbl_Category>().Update(tbl);
             return RedirectToAction("Categories");
         }
-
-
 
         public ActionResult Product()
         {
@@ -104,6 +99,7 @@ namespace OnlineShoppingStore.Controllers
             return View(_unitOfWork.GetRepositoryInstance<Tbl_Product>().GetFirstorDefault(productId));
         }
 
+        //Edit the product. If the new image is not valid it hold the previous one
         [HttpPost]
         public ActionResult ProductEdit(Tbl_Product tbl, HttpPostedFileBase file)
         {
@@ -127,6 +123,7 @@ namespace OnlineShoppingStore.Controllers
             return View();
         }
 
+        //Add product to the database and stores the image of the product in the folder ~/ProductImg/
         [HttpPost]
         public ActionResult ProductAdd(Tbl_Product tbl,HttpPostedFileBase file)
         {
@@ -144,9 +141,22 @@ namespace OnlineShoppingStore.Controllers
             return RedirectToAction("Product");
         }
 
+        public ActionResult Orders()
+        {
+            return View(_unitOfWork.GetRepositoryInstance<Tbl_Orders>().GetAllRecords());
+        }
 
-
-
-
+        public ActionResult OrderDetails(int id)
+        {
+            ReadOrderViewModel orderView = new ReadOrderViewModel();
+            orderView.Orders = _unitOfWork.GetRepositoryInstance<Tbl_Orders>().GetFirstorDefault(id);
+            int memberId = (int)orderView.Orders.MemberId;
+            int shippingDetailsId = (int)orderView.Orders.ShippingDetailsId;
+            orderView.Member = _unitOfWork.GetRepositoryInstance<Tbl_Members>().GetFirstorDefault(memberId);
+            orderView.ShippingDetails = _unitOfWork.GetRepositoryInstance<Tbl_ShippingDetails>().GetFirstorDefault(shippingDetailsId);
+            List<Tbl_OrderProducts> orderProducts = _unitOfWork.GetRepositoryInstance<Tbl_OrderProducts>().GetAllRecordsIQueryable().Where(i => i.OrderId == id).ToList();
+            orderView.OrderProducts = orderProducts;
+            return View(orderView);
+        }
     }
 }

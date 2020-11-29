@@ -14,6 +14,12 @@ namespace OnlineShoppingStore.DAL
     
     public partial class Tbl_ShippingDetails
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Tbl_ShippingDetails()
+        {
+            this.Tbl_Orders = new HashSet<Tbl_Orders>();
+        }
+    
         public int ShippingDetailId { get; set; }
         public Nullable<int> MemberId { get; set; }
         public string Adress { get; set; }
@@ -26,5 +32,7 @@ namespace OnlineShoppingStore.DAL
         public string PaymentType { get; set; }
     
         public virtual Tbl_Members Tbl_Members { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Tbl_Orders> Tbl_Orders { get; set; }
     }
 }

@@ -36,8 +36,6 @@ namespace OnlineShoppingStore.Repository
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
         private bool disposed = false;
-
     }
 }

@@ -12,27 +12,20 @@ namespace OnlineShoppingStore.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Tbl_Product
+    public partial class Tbl_Orders
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Tbl_Product()
+        public Tbl_Orders()
         {
             this.Tbl_OrderProducts = new HashSet<Tbl_OrderProducts>();
         }
     
-        public int ProductId { get; set; }
-        public string ProductName { get; set; }
-        public Nullable<int> CategoryId { get; set; }
-        public Nullable<bool> IsActive { get; set; }
-        public Nullable<bool> IsDelete { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<System.DateTime> ModifiedDate { get; set; }
-        public string ProductImage { get; set; }
-        public Nullable<bool> IsFeatured { get; set; }
-        public Nullable<int> Quantity { get; set; }
-        public Nullable<decimal> Price { get; set; }
+        public int OrderId { get; set; }
+        public Nullable<int> MemberId { get; set; }
+        public string OrderStatus { get; set; }
+        public Nullable<int> ShippingDetailsId { get; set; }
     
-        public virtual Tbl_Category Tbl_Category { get; set; }
+        public virtual Tbl_ShippingDetails Tbl_ShippingDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tbl_OrderProducts> Tbl_OrderProducts { get; set; }
     }

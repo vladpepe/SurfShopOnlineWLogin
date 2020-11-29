@@ -1,0 +1,151 @@
+﻿@model OnlineShoppingStore.ViewModels.ReadOrderViewModel
+
+
+@{
+    ViewBag.Title = "OrderDetails";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>OrderDetails</h2>
+
+<div>
+    <h3>Orders</h3>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Orders.OrderId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Orders.OrderId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Orders.OrderStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Orders.OrderStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Member.MemberId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Member.MemberId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Member.FristName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Member.FristName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Member.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Member.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Member.EmailId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Member.EmailId)
+        </dd>
+        <hr />
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippingDetails.Country)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShippingDetails.Country)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippingDetails.State)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShippingDetails.State)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippingDetails.City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShippingDetails.City)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippingDetails.Adress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShippingDetails.Adress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippingDetails.AmountPaid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShippingDetails.AmountPaid)
+        </dd>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ProductId</th>
+                            <th>Quantity</th>
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>ProductId</th>
+                            <th>Quantity</th>
+                            <th>Action</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var item in Model.OrderProducts)
+                        {
+                           
+                        <tr>
+
+                            <td>@item.ProductId</td>
+                            <td>@item.Quantity</td>
+                            <td>
+
+                                @Html.ActionLink("Edit", "ProductEdit", new { productId = item.ProductId })
+                            </td>
+
+                        </tr>
+                          
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+
+        <dt>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Orders")
+</p>

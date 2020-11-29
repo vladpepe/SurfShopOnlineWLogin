@@ -25,7 +25,6 @@ namespace OnlineShoppingStore.DAL
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Tbl_Cart> Tbl_Cart { get; set; }
         public virtual DbSet<Tbl_CartStatus> Tbl_CartStatus { get; set; }
         public virtual DbSet<Tbl_Category> Tbl_Category { get; set; }
         public virtual DbSet<Tbl_MemberRole> Tbl_MemberRole { get; set; }
@@ -35,5 +34,7 @@ namespace OnlineShoppingStore.DAL
         public virtual DbSet<Tbl_SlideImage> Tbl_SlideImage { get; set; }
         public virtual DbSet<Tbl_Product> Tbl_Product { get; set; }
         public virtual DbSet<Tbl_Admin> Tbl_Admin { get; set; }
+        public virtual DbSet<Tbl_Orders> Tbl_Orders { get; set; }
+        public virtual DbSet<Tbl_OrderProducts> Tbl_OrderProducts { get; set; }
     }
 }

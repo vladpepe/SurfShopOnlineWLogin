@@ -12,13 +12,14 @@ namespace OnlineShoppingStore.DAL
     using System;
     using System.Collections.Generic;
     
-    public partial class Tbl_Cart
+    public partial class Tbl_OrderProducts
     {
-        public int CartId { get; set; }
-        public Nullable<int> ProductId { get; set; }
-        public Nullable<int> MemberId { get; set; }
-        public Nullable<int> CartStatusId { get; set; }
+        public int COD { get; set; }
+        public int OrderId { get; set; }
+        public int ProductId { get; set; }
+        public Nullable<int> Quantity { get; set; }
     
+        public virtual Tbl_Orders Tbl_Orders { get; set; }
         public virtual Tbl_Product Tbl_Product { get; set; }
     }
 }
