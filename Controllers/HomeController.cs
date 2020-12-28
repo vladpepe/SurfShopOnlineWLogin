@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
+using OnlineShoppingStore.Models;
+
 
 namespace OnlineShoppingStore.Controllers
 {
@@ -65,6 +67,7 @@ namespace OnlineShoppingStore.Controllers
             return RedirectToAction("Login", "Home");
         }
 
+        //The page to add a Admin
         public ActionResult AddAdmin()
         {
             FormsAuthentication.SignOut();
@@ -90,6 +93,18 @@ namespace OnlineShoppingStore.Controllers
             }
             return RedirectToAction("AddAdmin");
         }
+
+        //To vieww the detail of the product with ID = id
+        public ActionResult ProductDetails(int id)
+        {
+            if(id != null)
+            {
+                return View(_unitOfWork.GetRepositoryInstance<Tbl_Product>().GetFirstorDefault(id));
+            }
+
+            return RedirectToAction("Index");     
+        }
+
 
         public ActionResult Checkout()
         {
@@ -144,10 +159,11 @@ namespace OnlineShoppingStore.Controllers
         }
 
 
+        //Insert into the database all the info given in the view making some control over the data
         [HttpPost]
         public ActionResult CreateOrder(CreateOrderViewModel orderViewModel)
         {
-            if (orderViewModel != null)
+            if (orderViewModel != null && ModelState.IsValid)
             {
                 dbMyOnlineShoppingEntities db = new dbMyOnlineShoppingEntities();
                 var mem = _unitOfWork.GetRepositoryInstance<Tbl_Members>().GetAllRecords();
@@ -155,11 +171,11 @@ namespace OnlineShoppingStore.Controllers
 
                 foreach (var item in mem)
                 {
-                    if(item.MemberId > maxMemberId)
+                    if (item.MemberId > maxMemberId)
                     {
                         maxMemberId = item.MemberId + 1;
                     }
-                    
+
                 }
                 Tbl_Members person = new Tbl_Members();
                 person.FristName = orderViewModel.Member.FristName;
@@ -204,8 +220,8 @@ namespace OnlineShoppingStore.Controllers
                 shippingDetails.MemberId = maxMemberId;
                 string AmountPaid = Session["SesTotal"].ToString();
                 shippingDetails.AmountPaid = Decimal.Parse(AmountPaid);
+                orderViewModel.ShippingDetails.AmountPaid = shippingDetails.AmountPaid;
                 shippingDetails.PaymentType = "Cash";
-                //shippingDetails.OrderId = maxOrderId;
                 _unitOfWork.GetRepositoryInstance<Tbl_ShippingDetails>().Add(shippingDetails);
 
                 Tbl_Orders order = new Tbl_Orders();
@@ -213,11 +229,10 @@ namespace OnlineShoppingStore.Controllers
                 order.OrderStatus = "First Step";
                 order.ShippingDetailsId = shippingDetails.ShippingDetailId;
                 order.OrderId = maxOrderId;
+
                 _unitOfWork.GetRepositoryInstance<Tbl_Orders>().Add(order);
 
-                
                 List<Item> cart = (List<Item>)Session["cart"];
-            
                 foreach (var item in cart)
                 {
                     if (item.Quantity > 0)
@@ -229,14 +244,32 @@ namespace OnlineShoppingStore.Controllers
                         _unitOfWork.GetRepositoryInstance<Tbl_OrderProducts>().Add(orderProducts);
                     }
                 }
+
+                //The string with the products that will be sent to the customer
+                string products = "------------------------------------------------------------------------------------------\n"+
+                                  "|Qty.x Price|                  Name                                                       \n"+
+                                  "------------------------------------------------------------------------------------------\n"
+                    ;
+
+                foreach (Item item in (List<Item>)Session["cart"])
+                {
+                    int lineTotal = Convert.ToInt32(item.Quantity * item.Product.Price);
+                  
+                    string product = "|   " + item.Quantity + " x " + item.Product.Price + "  |  " + item.Product.ProductName + ":\n " +
+                        "------------------------------------------------------------------------------------------\n";
+                    products = string.Concat(products, product);
+       
+                }
+
+                Models.Gmail.SendEmail(orderViewModel,products);
+                return RedirectToAction("PayOrder","Home");
             }
 
-            return RedirectToAction("PayOrder","Home");
+            //if the Model was not valid render again the page
+            return RedirectToAction("CreateOrder", "Home");
         }
 
-       
-
-
+ 
 
         public ActionResult DecreaseQty(int productId)
         {
@@ -339,7 +372,7 @@ namespace OnlineShoppingStore.Controllers
             }
             return Redirect("Index");
         }
-        
+
         public ActionResult RemoveFromCart(int productId)
         {
             List<Item> cart = (List<Item>)Session["cart"];
@@ -351,7 +384,16 @@ namespace OnlineShoppingStore.Controllers
                     break;
                 }
             }
-            Session["cart"] = cart;
+
+            if (cart.Count() == 0)
+            {
+                Session["cart"] = null;
+            }
+            else
+            {
+                Session["cart"] = cart;
+            }
+            
             return Redirect("Index");
         }
     }

@@ -23,7 +23,7 @@
         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
             <div class="input-group" style="color:white;">
                 @(User.Identity.IsAuthenticated ? HttpContext.Current.User.Identity.Name : "Guest")
-                <div class="input-group-append" style="color:red;" >
+                <div class="input-group-append" style="color:red;">
                     <a href="@Url.Action("Signout","Home")">-Logout</a>
                 </div>
             </div>
@@ -91,7 +91,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="Orders">
+                <a class="nav-link" href="~/Admin/Orders">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Orders</span>
                 </a>
@@ -145,6 +145,9 @@
     </div>
 
 
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 </body>
 
 </html>

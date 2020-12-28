@@ -11,7 +11,8 @@ namespace OnlineShoppingStore.DAL
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Tbl_ShippingDetails
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,10 +23,24 @@ namespace OnlineShoppingStore.DAL
     
         public int ShippingDetailId { get; set; }
         public Nullable<int> MemberId { get; set; }
+
+        [Required(ErrorMessage = "Please insert your adress")]
+        [StringLength(100, MinimumLength = 2, ErrorMessage = "Your adress is not valid")]
         public string Adress { get; set; }
+
+        [Required(ErrorMessage = "Please insert your city")]
+        [StringLength(100, MinimumLength = 2, ErrorMessage = "Your city is not valid")]
         public string City { get; set; }
+
+        [Required(ErrorMessage = "Please insert your state")]
+        [StringLength(100, MinimumLength = 2, ErrorMessage = "Your state is not valid")]
         public string State { get; set; }
+
+        [Required(ErrorMessage = "Please insert your country")]
+        [StringLength(100, MinimumLength = 2, ErrorMessage = "Your country is not valid")]
         public string Country { get; set; }
+
+        [Required(ErrorMessage = "Please insert your zipcode")]
         public string ZipCode { get; set; }
         public Nullable<int> OrderId { get; set; }
         public Nullable<decimal> AmountPaid { get; set; }

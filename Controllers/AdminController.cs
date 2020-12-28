@@ -158,5 +158,22 @@ namespace OnlineShoppingStore.Controllers
             orderView.OrderProducts = orderProducts;
             return View(orderView);
         }
+
+        
+        //When the admin ships the order it automaticaly sends a email to the customer
+        public ActionResult SendOrder(int id)
+        {
+            Tbl_Orders tbl = _unitOfWork.GetRepositoryInstance<Tbl_Orders>().GetFirstorDefault(id);
+            tbl.OrderStatus = "Shipped";
+    
+            _unitOfWork.GetRepositoryInstance<Tbl_Orders>().Update(tbl);
+            Tbl_Members tbl_Members = _unitOfWork.GetRepositoryInstance<Tbl_Members>().GetFirstorDefault((int)tbl.MemberId);
+            
+            Models.Gmail.SendEmail(tbl_Members, tbl);
+
+            return RedirectToAction("Orders");
+        }
+
+
     }
 }

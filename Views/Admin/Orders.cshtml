@@ -7,9 +7,7 @@
 
 <h2>Orders</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 <table class="table">
     <tr>
         <th>
@@ -39,9 +37,11 @@
     </td>
 
     <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.OrderId }) |
-        @Html.ActionLink("Details", "OrderDetails", new { id = item.OrderId }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.OrderId })
+        @Html.ActionLink("Details", "OrderDetails", new { id = item.OrderId }) 
+        @if (item.OrderStatus == "First Step")
+        {
+        @Html.ActionLink("|Send", "SendOrder", new { id = item.OrderId })
+        }
     </td>
 </tr>
 }

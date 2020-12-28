@@ -17,24 +17,24 @@
             <div class="imgOverlay"></div>
             <img style="width:100%" src="../Images/img11.jpg" alt="First slide">
             <div class="carousel-caption">
-                <h3>First slide</h3>
-                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                <h1 style="font-size: 1.5em;">Only the best products</h1>
+                <p>Buy only the best products to have the best performance during sports.</p>
             </div>
         </div>
         <div class="item">
             <div class="imgOverlay"></div>
             <img style="width:100%" src="../Images/img22.jpg" alt="Second slide">
             <div class="carousel-caption">
-                <h3>Second slide</h3>
-                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                <h1 style="font-size: 1.5em;">Great customer service</h1>
+                <p>We ensure that every customer has a great experience with our company.</p>
             </div>
         </div>
         <div class="item">
             <div class="imgOverlay"></div>
             <img style="width:100%" src="../Images/img33.jpg" alt="Third slide">
             <div class="carousel-caption">
-                <h3>Third slide</h3>
-                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                <h1 style="font-size: 1.5em;">World's most valuable brands</h1>
+                <p>Thanks to the collaboration of our shop with leading brands in the world of sport.</p>
             </div>
         </div>
     </div>
@@ -67,7 +67,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="page-header">
-            <h2>Our Products <small> trends products</small></h2>
+            <h2>Our Products <small> trending products</small></h2>
         </div>
     </div>
 </div>
@@ -79,25 +79,35 @@
     @foreach (var item in Model.ListOfProducts)
     {
       
-        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-6 ">
-            <div class="thumbnail product-item" style="height:400px">
+        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-6 " >
+            <a class="thumbnail product-item" style="height:400px" href="@Url.Action("ProductDetails", "Home",new { id = item.ProductId })">
 
-                <img class="img-responsive" title="Click to View Product detail"
+                <img class="img-responsive" title="Click to View Product detail" 
                      style="cursor:pointer;height:220px;width:100%"
                      src="~/ProductImg/@item.ProductImage" />
+                     
 
                 <div class="caption">
-                    <h5>@item.ProductName</h5>
+
+                    @if (item.ProductName.Length <= 26)
+                    {
+                        <h5>@item.ProductName.Substring(0, item.ProductName.Length)</h5>
+
+                    }
+                    else
+                    {
+                        <h5>@item.ProductName.Substring(0, 26)</h5>
+                    }
+
+                    
                     <p>@item.Price€</p>
                     <p>
                         @if (item.Quantity > 0)
                         {
                             using (Html.BeginForm("AddToCart", "Home", new { productId = item.ProductId }, FormMethod.Post))
                             {
-                                <button type="submit" class="pull-right"><i class="fa fa-shopping-cart"></i></button>
-                            }
-
-                        <p>Available</p>
+                            <button type="submit" class="btn btn-primary" style="display: block; margin-left: auto; margin-right: auto;">Add to cart</button>
+                            }  
                     }
                     else
                     {
@@ -117,7 +127,7 @@
                         }
 
                     </div>
-                    </div>
+                </a>
                 </div>         
         }
 

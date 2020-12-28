@@ -11,7 +11,8 @@ namespace OnlineShoppingStore.DAL
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Tbl_Members
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,10 +20,19 @@ namespace OnlineShoppingStore.DAL
         {
             this.Tbl_ShippingDetails = new HashSet<Tbl_ShippingDetails>();
         }
-    
+
         public int MemberId { get; set; }
+
+        [Required(ErrorMessage = "Please insert your name")]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "The name is not valid")]
         public string FristName { get; set; }
+
+        [Required(ErrorMessage = "Please insert your lastname")]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "This last name is not valid")]
         public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Please insert your email address")]
+        [EmailAddress(ErrorMessage = "A valid email address is required.")]
         public string EmailId { get; set; }
         public string Password { get; set; }
         public Nullable<bool> IsActive { get; set; }

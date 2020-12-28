@@ -1,0 +1,64 @@
+﻿@model OnlineShoppingStore.DAL.Tbl_Product
+
+@{
+    ViewBag.Title = "ProductDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.ProductName Product Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        
+            <img class="img-responsive" title="Click to View Product detail"
+                 style="width: 100%; height: auto; max-width: 400px; display: block; margin-left: auto; margin-right: auto; "
+                 src="~/ProductImg/@Model.ProductImage" />
+        
+        <dd>
+            @Html.DisplayFor(model => model.ProductName)
+        </dd>
+
+        <dt>
+            Available quantity
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+
+        <dt>
+            Category
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tbl_Category.CategoryName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            € @Html.DisplayFor(model => model.Price)
+        </dd>
+
+
+        @if (Model.Quantity > 0)
+        {
+            using (Html.BeginForm("AddToCart", "Home", new { productId = Model.ProductId }, FormMethod.Post))
+            {
+                <button type="submit" class="btn btn-primary" style="display: block; margin-left: auto; margin-right: auto;" >Add to cart</button>      
+            }
+            <p>Available</p>
+         }
+         else
+         {
+            <p>NotAvailable</p>
+         }
+    </dl>
+</div>
+<p>
+    
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -11,16 +11,23 @@ namespace OnlineShoppingStore.DAL
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Security.Cryptography;
     using System.Text;
 
     public partial class Tbl_Admin
     {
+        [Required(ErrorMessage = "Please insert your username")]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "The username is not valid")]
         public string UserName { get; set; }
+
+        [Required(ErrorMessage = "Please insert your password")]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "The password is not valid")]
         public string Password { get; set; }
         public int ID { get; set; }
 
 
+        //Method to encrypt a string using MD5 
         public static string MD5Hash(string input)
         {
             StringBuilder hash = new StringBuilder();
