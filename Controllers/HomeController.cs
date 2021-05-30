@@ -68,6 +68,7 @@ namespace OnlineShoppingStore.Controllers
         }
 
         //The page to add a Admin
+        [Authorize]
         public ActionResult AddAdmin()
         {
             FormsAuthentication.SignOut();
@@ -76,6 +77,7 @@ namespace OnlineShoppingStore.Controllers
 
 
         //Add a new admin to the Database -- In real live need to take out this option since it doesnt make sense to add the admin whenever you want
+        [Authorize]
         [HttpPost]
         public ActionResult AddAdmin(Tbl_Admin tbl)
         {
@@ -261,7 +263,7 @@ namespace OnlineShoppingStore.Controllers
        
                 }
 
-                Models.Gmail.SendEmail(orderViewModel,products);
+                Gmail.SendEmail(orderViewModel,products);
                 return RedirectToAction("PayOrder","Home");
             }
 

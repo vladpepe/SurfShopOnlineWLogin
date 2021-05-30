@@ -1846,7 +1846,7 @@
     <Content Include="login\vendor\bootstrap\css\bootstrap.css.map" />
     <Content Include="login\vendor\bootstrap\css\bootstrap.min.css.map" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
-    <None Include="Properties\PublishProfiles\OnlineShoppingStore20201225202214 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\PepeSurfShop - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

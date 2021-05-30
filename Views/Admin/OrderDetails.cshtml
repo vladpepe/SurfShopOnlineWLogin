@@ -6,100 +6,154 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>OrderDetails</h2>
+<h2>Order Details</h2>
 
 <div>
-    <h3>Orders</h3>
-    <hr />
+
+    
     <dl class="dl-horizontal">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Orders.OrderId)
-        </dt>
+        <div class="card">
+            <div class="card-body">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Orders.OrderId)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Orders.OrderId)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Orders.OrderId)
+                </dd>
+            </div>
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Orders.OrderStatus)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Orders.OrderStatus)
-        </dd>
+        <div class="card">
+            <div class="card-body">
+                <dt>
+                   Order status
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Member.MemberId)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Orders.OrderStatus)
+                </dd>
+            </div>
+        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Member.MemberId)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Member.FristName)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Member.FristName)
-        </dd>
+        <div class="card">
+            <div class="card-body">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Member.MemberId)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Member.LastName)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Member.MemberId)
+                </dd>
+            </div>
+        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Member.LastName)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Member.EmailId)
-        </dt>
+        <div class="card">
+            <div class="card-body">
+                <dt>
+                    Firstname
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Member.EmailId)
-        </dd>
-        <hr />
+                <dd>
+                    @Html.DisplayFor(model => model.Member.FristName)
+                </dd>
+            </div>
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ShippingDetails.Country)
-        </dt>
+        <div class="card">
+            <div class="card-body">
+                <dt>
+                    Lastname
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ShippingDetails.Country)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Member.LastName)
+                </dd>
+            </div>
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ShippingDetails.State)
-        </dt>
+        <div class="card">
+            <div class="card-body">
+                <dt>
+                    Email 
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ShippingDetails.State)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Member.EmailId)
+                </dd>
+            </div>
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ShippingDetails.City)
-        </dt>
+        <div class="card">
+            <div class="card-body">
+                <dt>
+                   Country
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ShippingDetails.City)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.ShippingDetails.Country)
+                </dd>
+            </div>
+        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ShippingDetails.Adress)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ShippingDetails.Adress)
-        </dd>
+        <div class="card">
+            <div class="card-body">
+                <dt>
+                    State
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ShippingDetails.AmountPaid)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ShippingDetails.State)
+                </dd>
+            </div>
+        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.ShippingDetails.AmountPaid)
-        </dd>
+
+        <div class="card">
+            <div class="card-body">
+                <dt>
+                    Shipping city
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ShippingDetails.City)
+                </dd>
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-body">
+                <dt>
+                    Shipping address
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ShippingDetails.Adress)
+                </dd>
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-body">
+                <dt>
+                    Amount paid
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ShippingDetails.AmountPaid)
+                </dd>
+            </div>
+        </div>
+
+
+     
 
         <div class="card-body">
             <div class="table-responsive">
@@ -122,18 +176,18 @@
                     <tbody>
                         @foreach (var item in Model.OrderProducts)
                         {
-                           
-                        <tr>
 
-                            <td>@item.ProductId</td>
-                            <td>@item.Quantity</td>
-                            <td>
+                            <tr>
 
-                                @Html.ActionLink("Edit", "ProductEdit", new { productId = item.ProductId })
-                            </td>
+                                <td>@item.ProductId</td>
+                                <td>@item.Quantity</td>
+                                <td>
 
-                        </tr>
-                          
+                                    @Html.ActionLink("Edit", "ProductEdit", new { productId = item.ProductId })
+                                </td>
+
+                            </tr>
+
                         }
 
                     </tbody>

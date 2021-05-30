@@ -6,7 +6,14 @@
 @if (User.Identity.IsAuthenticated)
 {
     <h1>Welcome @(User.Identity.IsAuthenticated ? HttpContext.Current.User.Identity.Name : "Guest")</h1>
-    <a href="@Url.Action("Signout","Home")">Logout</a>
+
+    <button type="button" class="btn btn-outline-primary" ><a href="@Url.Action("SignOut","Admin")">Logout</a></button>
+
+    <button type="button" class="btn btn-outline-primary" ><a href="@Url.Action("AddAdmin","Home")">Add admin</a></button>
+
+    
+
+
 }
 
 

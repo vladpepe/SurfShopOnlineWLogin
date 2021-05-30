@@ -19,7 +19,7 @@ namespace OnlineShoppingStore.Controllers
         public GenericUnitOfWork _unitOfWork = new GenericUnitOfWork();
 
         //Sign out the Admin - If you want to visit again the Admin page you have to login again
-       public ActionResult SignOut()
+        public ActionResult SignOut()
         {
             FormsAuthentication.SignOut();
             return RedirectToAction("Login", "Home");
@@ -46,12 +46,11 @@ namespace OnlineShoppingStore.Controllers
             List<Tbl_Category> allcategories = _unitOfWork.GetRepositoryInstance<Tbl_Category>().GetAllRecordsIQueryable().Where(i => i.IsDelete == false).ToList();
             return View(allcategories);
         }
-        
+
         public ActionResult AddCategory()
         {
             return View();
         }
-
 
         //Add new category of products to the database
         [HttpPost]
@@ -60,7 +59,7 @@ namespace OnlineShoppingStore.Controllers
             _unitOfWork.GetRepositoryInstance<Tbl_Category>().Add(tbl);
             return RedirectToAction("Categories");
         }
-      
+
         public ActionResult UpdateCategory(int categoryId)
         {
             CategoryDetail cd;
@@ -79,7 +78,7 @@ namespace OnlineShoppingStore.Controllers
         {
             return View(_unitOfWork.GetRepositoryInstance<Tbl_Category>().GetFirstorDefault(catId));
         }
-        
+
         //Edit the category with the ID catId
         [HttpPost]
         public ActionResult CategoryEdit(Tbl_Category tbl)
@@ -125,7 +124,7 @@ namespace OnlineShoppingStore.Controllers
 
         //Add product to the database and stores the image of the product in the folder ~/ProductImg/
         [HttpPost]
-        public ActionResult ProductAdd(Tbl_Product tbl,HttpPostedFileBase file)
+        public ActionResult ProductAdd(Tbl_Product tbl, HttpPostedFileBase file)
         {
             string pic = null;
             if (file != null)
@@ -159,21 +158,19 @@ namespace OnlineShoppingStore.Controllers
             return View(orderView);
         }
 
-        
         //When the admin ships the order it automaticaly sends a email to the customer
+        [HttpPost]
         public ActionResult SendOrder(int id)
         {
             Tbl_Orders tbl = _unitOfWork.GetRepositoryInstance<Tbl_Orders>().GetFirstorDefault(id);
             tbl.OrderStatus = "Shipped";
-    
+
             _unitOfWork.GetRepositoryInstance<Tbl_Orders>().Update(tbl);
             Tbl_Members tbl_Members = _unitOfWork.GetRepositoryInstance<Tbl_Members>().GetFirstorDefault((int)tbl.MemberId);
-            
-            Models.Gmail.SendEmail(tbl_Members, tbl);
+
+            Gmail.SendEmail(tbl_Members, tbl);
 
             return RedirectToAction("Orders");
         }
-
-
     }
 }
